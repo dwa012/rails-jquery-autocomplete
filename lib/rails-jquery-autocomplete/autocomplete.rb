@@ -68,7 +68,7 @@ module RailsJQueryAutocomplete
             class_name = options[:class_name] || object
             
             if !options[:search_action].blank?
-              items = get_object(class_name).send(options[:search_action], {:extra => params[:extra], :term => term, :options => options})
+              items = get_object(class_name).send(options[:search_action], {:extra => params.except(:term, :action, :controller), :term => term, :options => options})
             else
               items = get_autocomplete_items(:model => get_object(class_name), \
                 :options => options, :term => term, :method => method)

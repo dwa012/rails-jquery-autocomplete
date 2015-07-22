@@ -77,7 +77,7 @@ module RailsJQueryAutocomplete
             items = {}
           end
 
-          render :json => json_for_autocomplete(items, options[:display_value] ||= method, options[:extra_data], &block), root: false
+          render :json => json_for_autocomplete(items, options[:display_value] ||= method, options[:extra_data], options[:selected_value] ||= method, &block), root: false
         end
       end
     end
@@ -101,9 +101,9 @@ module RailsJQueryAutocomplete
     # Can be overriden to show whatever you like
     # Hash also includes a key/value pair for each method in extra_data
     #
-    def json_for_autocomplete(items, method, extra_data=[])
+    def json_for_autocomplete(items, method, extra_data=[], selected_value)
       items = items.collect do |item|
-        hash = {"id" => item.id.to_s, "label" => item.send(method), "value" => item.send(method)}
+        hash = {"id" => item.id.to_s, "label" => item.send(method), "value" => item.send(selected_value)}
         extra_data.each do |datum|
           hash[datum] = item.send(datum)
         end if extra_data
